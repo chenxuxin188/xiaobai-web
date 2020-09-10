@@ -384,7 +384,7 @@ router.all('/:id/register', function(req, res, next) {
           }else{
             var pswd = bcrypt.hashSync(p, 10);
             var q = req.body.qq;
-            var url = `http://127.0.0.1:25421/glist/${q}`
+            var url = `http://${config.xiaobai.ip}:${config.xiaobai.port}/glist/${q}`
             request(url, function(err, resource, body) {
               if (err || resource.statusCode != 200) {
                 db.register([u, pswd], function(err,result) {
@@ -432,5 +432,6 @@ setInterval(() => {
     }
   }
 }, 500);
+
 
 module.exports = router;
