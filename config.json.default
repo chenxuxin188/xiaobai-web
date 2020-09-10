@@ -1,0 +1,19 @@
+{
+    "domain": "127.0.0.1",
+    "SECRET": "fj3q0jgn098qh345g9",
+    "port": "3000",
+    "sport": "3001",
+    "https": false,
+    "db": {
+        "ip": "127.0.0.1",
+        "port": 3306,
+        "user": "root",
+        "pswd": "password",
+        "db": "database"
+    },
+
+    "xiaobai": {
+        "ip":"127.0.0.1",
+        "port": 8080
+    }
+}

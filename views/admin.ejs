@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>小白控制台</title>
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link rel='stylesheet' href='/css/style.css'>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+    
+        
+    </script>
+  </head>
+  <body style="background-color:slategray">
+    <div class="container-fluid" style="min-width: 720px;">
+        <div class="modal fade" id="warn" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                </div>
+              </div>
+            </div>
+          </div>
+      <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand">小白-控制台</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/">返回主页</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="https://github.com/chenxuxin188/xiaobai-bot">Github</a>
+            </li>
+          </ul>
+        </div>
+        <div class="my-2 my-lg-0">
+          <a role="button" class="btn btn-success" id="logout">注销</a>>
+        </div>
+      </nav>
+      <div style="padding-top: 65px;">
+        <div class="p-4 mb-2 bg-dark text-left text-white">
+          <p>说明：</p>
+          <p>互动CD 为和小白对话互动的CD，设置时间为10-120秒。</p>
+          <p>色图key为色图功能所需的apikey，需要在<a href="https://api.lolicon.app/#/setu">这里</a>申请。填入错误的apikey无法使用。</p>
+          <p>色图开关为色图功能的开关。没有apikey的话不管开关都没用。输入错误的apikey也用不了。</p>
+          <p>群组CD为小白在群里发色图的间隔。60秒-3600秒</p>
+          <p>个人CD为群里的单个人请求色图的CD  120秒-7200秒<p>
+          <p>那些开关就不多做解释了，应该都能看懂</p>
+          <p>最后说一下banlist。上了ban list的QQ号小白就不会在这个群里回应了了。</p>
+          <p>如果设置有误的话点提交是会有提醒的。</p>
+        </div>
+        <div class="p-4 mb-2 bg-dark text-left text-white" id = control>
+            
+        </div>
+      </div>
+
+    </div>
+    <script src="/js/jquery-3.5.1.min.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <script src="/js/admin.js"></script>
+  </body">
+</html>
