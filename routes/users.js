@@ -5,7 +5,7 @@ var request = require('request');
 var db = require('./db');
 var jwt = require('jsonwebtoken');
 var config = require('../config.json');
-var fs = require('fs');
+const { response } = require('express');
 const SECRET = config.SECRET;
 
 var rand = new Map();
@@ -151,7 +151,9 @@ router.all('/admin/', function(req, res, next) {
   res.render('check')
 });
 
+
 router.post('/admin/:id/update', function(req, res, next) {
+  console.log(req.body)
   var group = req.body.group
   var iactCD = req.body.iactCD
   var setu = req.body.setu
@@ -164,6 +166,7 @@ router.post('/admin/:id/update', function(req, res, next) {
   var repeat = req.body.repeat
   var kouqiu = req.body.kouqiu
   var ban = req.body.ban
+  var blb = req.body.blb
   if(parseInt(group) > 10000000000 || parseInt(group) < 1000) {
     res.status(422).send('非法群组参数');
     return;
@@ -203,7 +206,10 @@ router.post('/admin/:id/update', function(req, res, next) {
     res.status(422).send('非法小白口球开关参数');
     return;
   } else if(ban.length != 0 && !JSON.parse(ban)) {
-    res.status(422).send('非法参数');
+    res.status(422).send('非法ban list参数');
+    return;
+  } else if(blb.length != 0 && !JSON.parse(blb)) {
+    res.status(422).send('非法菠萝包轻小说订阅参数');
     return;
   }
 
@@ -243,7 +249,7 @@ router.post('/admin/:id/update', function(req, res, next) {
                 if(err) {
                   res.status(500).send('找不到该组。')
                 } else {
-                  db.updateGroup([iactCD,setuKey,setu,seturecall,anti,individualCD,groupCD,repeat,antirecall,kouqiu,ban,group], function(err, reqult) {
+                  db.updateGroup([iactCD,setuKey,setu,seturecall,anti,individualCD,groupCD,repeat,antirecall,kouqiu,ban,blb,group], function(err, result) {
                     if(err){
                       res.status(500).send('更新失败，请刷新或者重新登录。')
                     } else {
@@ -432,6 +438,46 @@ setInterval(() => {
     }
   }
 }, 500);
+
+
+setInterval(() => {
+  db.blbList(function(err,bl){
+    if(err){
+      return;
+    } else {
+      db.groupList(function(err,gr) {
+        var x = [];
+        for (var g of gr) {
+          var l = JSON.parse(g.blb? g.blb:'[]');
+          for(var ll of l) {
+            var q = false
+            for (var bb of bl) {
+              if(ll == bb.id){
+                q = true
+                break;
+              }
+            }
+            if(!q){
+              x[x.length]=ll
+            }
+          }
+        }
+        for(var book of x) {
+          var url = `http://${config.xiaobai.ip}:${config.xiaobai.port}/book/${book}`
+          request(url, function(error, response, body){
+            name = '';
+            chapter = 0;
+            if(err || response.statusCode != 200){
+            } else {
+              t = JSON.parse(body)
+              db.blbAdd([book,t[0],t[1]], function(err,result){})
+            }
+          })
+        }
+      })
+    }
+  })
+}, 60000);
 
 
 module.exports = router;
