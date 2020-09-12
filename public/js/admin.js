@@ -46,7 +46,7 @@ $.ajax({
 
                 `<div id="bangrp${r[i].group}" class="collapse" aria-labelledby="banhead${r[i].group}" data-parent="#mgrp${r[i].group}">`+
               `<div class="card-body bg-dark">`+
-
+              `<p><strong style="color: red;">请先添加，出现至下面列表之后再提交。</strong><p>`+
               `<div class="form-group row"><label for="ban${r[i].group}" class="col-sm-2 col-form-label">添加ban</label><div class="form-inline col-sm-10"><input type="number" class="form-control col-md-10" id="ban${r[i].group}" max="10000000000"><button type="button" class="btn btn-success" id="add${r[i].group}">添加</button></div></div>`+
               `<div class="form-group row"><label for="banlist${r[i].group}" class="col-sm-2 col-form-label">现有banlist</label><div class="form-inline col-sm-10"><ul class="list-group col-md-10" id="banlist${r[i].group}">`;
               
@@ -106,6 +106,7 @@ $.ajax({
             `<div class="card-body bg-dark">`+
 
               `<p><strong style="color: red;">注意：新加的书最长需要10分钟才能开始检测更新。</strong><p>`+
+              `<p><strong style="color: red;">请先添加，出现至下面列表之后再提交。</strong><p>`+
             `<div class="form-group row"><label for="blb${r[i].group}" class="col-sm-2 col-form-label">添加ban</label><div class="form-inline col-sm-10"><input type="number" class="form-control col-md-10" id="blb${r[i].group}" max="10000000000"><button type="button" class="btn btn-success" id="addblb${r[i].group}">添加</button></div></div>`+
               `<div class="form-group row"><label for="blblist${r[i].group}" class="col-sm-2 col-form-label">现有banlist</label><div class="form-inline col-sm-10"><ul class="list-group col-md-10" id="blblist${r[i].group}">`;
               
