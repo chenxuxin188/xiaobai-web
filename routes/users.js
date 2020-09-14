@@ -153,7 +153,7 @@ router.all('/admin/', function(req, res, next) {
 
 
 router.post('/admin/:id/update', function(req, res, next) {
-  console.log(req.body)
+
   var group = req.body.group
   var iactCD = req.body.iactCD
   var setu = req.body.setu
@@ -167,12 +167,13 @@ router.post('/admin/:id/update', function(req, res, next) {
   var kouqiu = req.body.kouqiu
   var ban = req.body.ban
   var blb = req.body.blb
+  var bili = req.body.bili
+
+
   if(parseInt(group) > 10000000000 || parseInt(group) < 1000) {
     res.status(422).send('非法群组参数');
     return;
-  }
-
-  else if(parseInt(iactCD) > 120 || parseInt(iactCD) < 10) {
+  } else if(parseInt(iactCD) > 120 || parseInt(iactCD) < 10) {
     res.status(422).send('非法互动CD参数');
     return;
   } else if(setu != 0 && setu != 1) {
@@ -184,7 +185,6 @@ router.post('/admin/:id/update', function(req, res, next) {
     res.status(422).send('非法色图key参数');
     return;
   } else if(groupCD > 3600 || groupCD < 60) {
-
     res.status(422).send('非法群组CD参数');
     return;
   } else if(individualCD > 7200 || individualCD < 120) {
@@ -209,9 +209,13 @@ router.post('/admin/:id/update', function(req, res, next) {
     res.status(422).send('非法ban list参数');
     return;
   } else if(blb.length != 0 && !JSON.parse(blb)) {
-    res.status(422).send('非法菠萝包轻小说订阅参数');
+    res.status(422).send('非法菠萝包轻小说书号参数');
     return;
-  }
+  } else if(bili.length != 0 && !JSON.parse(bili)) {
+    res.status(422).send('非法菠萝包轻小说书号参数');
+    return;
+  } 
+
 
   if (req.cookies.auth) {
     jwt.verify(req.cookies.auth, SECRET, function(err, result) {
@@ -249,7 +253,7 @@ router.post('/admin/:id/update', function(req, res, next) {
                 if(err) {
                   res.status(500).send('找不到该组。')
                 } else {
-                  db.updateGroup([iactCD,setuKey,setu,seturecall,anti,individualCD,groupCD,repeat,antirecall,kouqiu,ban,blb,group], function(err, result) {
+                  db.updateGroup([iactCD,setuKey,setu,seturecall,anti,individualCD,groupCD,repeat,antirecall,kouqiu,ban,blb,bili,group], function(err, result) {
                     if(err){
                       res.status(500).send('更新失败，请刷新或者重新登录。')
                     } else {
@@ -267,6 +271,47 @@ router.post('/admin/:id/update', function(req, res, next) {
     res.status(422).send('尚未登录，请登录');
   }
 });
+
+
+router.get('/book/:id', function(req,res,next) {
+  console.log(req.cookies.auth)
+  jwt.verify(req.cookies.auth, SECRET, function(err, result) {
+    if(err) {
+      res.status(422).send('过期认证，请重新登录');
+      return;
+    }
+    console.log(req.params.id)
+    var url = `http://${config.xiaobai.ip}:${config.xiaobai.port}/book/${req.params.id}`
+    request(url, function(err, response, body){
+      if(err){
+        res.status(500).send('x');
+      } else if(response.statusCode != 200) {
+        res.status(404).send('x');
+      }else {
+        res.send(body)
+      }
+    })
+  })
+})
+
+router.get('/biliup/:id', function(req,res,next) {
+  jwt.verify(req.cookies.auth, SECRET, function(err, result) {
+    if(err) {
+      res.status(422).send('过期认证，请重新登录');
+      return;
+    }
+    var url = `http://${config.xiaobai.ip}:${config.xiaobai.port}/biliup/${req.params.id}`
+    request(url, function(err, response, body){
+      if(err){
+        res.status(500).send('x');
+      } else if(response.statusCode != 200) {
+        res.status(404).send('x');
+      }else {
+        res.send(body)
+      }
+    })
+  })
+})
 
 router.post('/superadmin/generate', function(req, res, next) {
   if (req.cookies.auth) {
@@ -438,46 +483,6 @@ setInterval(() => {
     }
   }
 }, 500);
-
-
-setInterval(() => {
-  db.blbList(function(err,bl){
-    if(err){
-      return;
-    } else {
-      db.groupList(function(err,gr) {
-        var x = [];
-        for (var g of gr) {
-          var l = JSON.parse(g.blb? g.blb:'[]');
-          for(var ll of l) {
-            var q = false
-            for (var bb of bl) {
-              if(ll == bb.id){
-                q = true
-                break;
-              }
-            }
-            if(!q){
-              x[x.length]=ll
-            }
-          }
-        }
-        for(var book of x) {
-          var url = `http://${config.xiaobai.ip}:${config.xiaobai.port}/book/${book}`
-          request(url, function(error, response, body){
-            name = '';
-            chapter = 0;
-            if(err || response.statusCode != 200){
-            } else {
-              t = JSON.parse(body)
-              db.blbAdd([book,t[0],t[1]], function(err,result){})
-            }
-          })
-        }
-      })
-    }
-  })
-}, 60000);
 
 
 module.exports = router;
