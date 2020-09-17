@@ -168,6 +168,7 @@ router.post('/admin/:id/update', function(req, res, next) {
   var ban = req.body.ban
   var blb = req.body.blb
   var bili = req.body.bili
+  var atownerban = req.body.atownerban
 
 
   if(parseInt(group) > 10000000000 || parseInt(group) < 1000) {
@@ -253,7 +254,7 @@ router.post('/admin/:id/update', function(req, res, next) {
                 if(err) {
                   res.status(500).send('找不到该组。')
                 } else {
-                  db.updateGroup([iactCD,setuKey,setu,seturecall,anti,individualCD,groupCD,repeat,antirecall,kouqiu,ban,blb,bili,group], function(err, result) {
+                  db.updateGroup([iactCD,setuKey,setu,seturecall,anti,individualCD,groupCD,repeat,antirecall,kouqiu,ban,blb,bili,atownerban,group], function(err, result) {
                     if(err){
                       res.status(500).send('更新失败，请刷新或者重新登录。')
                     } else {

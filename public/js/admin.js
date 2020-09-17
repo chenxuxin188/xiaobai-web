@@ -34,6 +34,7 @@ $.ajax({
               `<div class="form-group row"><label for="repeat${r[i].group}" class="col-sm-2 col-form-label">复读</label><div class="col-sm-10"><input type="checkbox" class="form-control" id="repeat${r[i].group}"${r[i].repeat == 1? 'checked':''}></div></div>`+
               `<div class="form-group row"><label for="antirecall${r[i].group}" class="col-sm-2 col-form-label">防撤回</label><div class="col-sm-10"><input type="checkbox" class="form-control" id="antirecall${r[i].group}"${r[i].antirecall == 1? 'checked':''}></div></div>`+
               `<div class="form-group row"><label for="kouqiu${r[i].group}" class="col-sm-2 col-form-label"><strong style="color: red;">关闭小白</strong></label><div class="col-sm-10"><input type="checkbox" class="form-control" id="kouqiu${r[i].group}"${r[i].kouqiu == 1? 'checked':''}></div></div>`+
+              `<div class="form-group row"><label for="atownerban${r[i].group}" class="col-sm-2 col-form-label">艾特群主自动禁言（分钟）</label><div class="col-sm-10"><input type="number" class="form-control" id="atownerban${r[i].group}" min="0" max="1440" value="${r[i].atownerban}"></div></div>`+
               `<div class="m-2">`+
 
               `<div class="accordion bg-dark" id="mgrp${r[i].group}">`+
@@ -439,6 +440,7 @@ $.ajax({
                 var ban = JSON.stringify(list[this.id]);
                 var blb = JSON.stringify(blblist[this.id]);
                 var bili = JSON.stringify(bilist[this.id]);
+                var atownerban = $(`#atownerban${this.id}`).val();
                 $.ajax({
                     url: url + '/update',
                     type: 'POST',
@@ -456,7 +458,8 @@ $.ajax({
                         antirecall: antirecall,
                         ban: ban,
                         blb: blb,
-                        bili: bili
+                        bili: bili,
+                        atownerban:atownerban
                     },
                     success: function (result) {
                         $("#main").prepend(modal)
