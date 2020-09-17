@@ -215,7 +215,10 @@ router.post('/admin/:id/update', function(req, res, next) {
   } else if(bili.length != 0 && !JSON.parse(bili)) {
     res.status(422).send('非法菠萝包轻小说书号参数');
     return;
-  } 
+  } else if(atownerban > 14400 || atownerban < 0) {
+    res.status(422).send('非法艾特群组禁言');
+    return;
+  }
 
 
   if (req.cookies.auth) {
