@@ -111,6 +111,7 @@ $.ajax({
 
               `<p><strong style="color: red;">注意：新加的书最长需要10分钟才能开始检测更新。</strong><p>`+
               `<p><strong style="color: red;">请先添加，出现至下面列表之后再提交。</strong><p>`+
+              `<div class="form-group row"><label for="blbatall${r[i].group}" class="col-sm-2 col-form-label">菠萝包更新艾特全体</label><div class="col-sm-10"><input type="checkbox" class="form-control" id="blbatall${r[i].group}"${r[i].blbatall == 1? 'checked':''}></div></div>`+
             `<div class="form-group row"><label for="blb${r[i].group}" class="col-sm-2 col-form-label">添加菠萝包书号</label><div class="form-inline col-sm-10"><input type="number" class="form-control col-md-10" id="blb${r[i].group}" max="10000000000"><button type="button" class="btn btn-success" id="addblb${r[i].group}">添加</button></div></div>`+
               `<div class="form-group row"><label for="blblist${r[i].group}" class="col-sm-2 col-form-label">现有书号列表</label><div class="form-inline col-sm-10"><ul class="list-group col-md-10" id="blblist${r[i].group}">`;
               
@@ -441,6 +442,7 @@ $.ajax({
                 var blb = JSON.stringify(blblist[this.id]);
                 var bili = JSON.stringify(bilist[this.id]);
                 var atownerban = $(`#atownerban${this.id}`).val();
+                var blbatall = $(`#blbatall${this.id}`).prop("checked")? 1:0;
                 $.ajax({
                     url: url + '/update',
                     type: 'POST',
@@ -459,7 +461,8 @@ $.ajax({
                         ban: ban,
                         blb: blb,
                         bili: bili,
-                        atownerban:atownerban
+                        atownerban: atownerban,
+                        blbatall: blbatall
                     },
                     success: function (result) {
                         $("#main").prepend(modal)

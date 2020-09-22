@@ -75,7 +75,7 @@ Db.prototype.updateGroup = function (values, callback){
             callback(err, 'connection failed')
             return;
         }
-        const sql = 'UPDATE `group` SET `group`.iactCD=?, `group`.setuKey=?, `group`.setu=?, `group`.seturecall=?, `group`.anti=?, `group`.individualCD=?, `group`.groupCD=?, `group`.repeat=?, `group`.antirecall=?, `group`.kouqiu=?, `group`.ban=?, `group`.blb=?, `group`.bili=?, `group`.atownerban=? WHERE `group`.group=?';
+        const sql = 'UPDATE `group` SET `group`.iactCD=?, `group`.setuKey=?, `group`.setu=?, `group`.seturecall=?, `group`.anti=?, `group`.individualCD=?, `group`.groupCD=?, `group`.repeat=?, `group`.antirecall=?, `group`.kouqiu=?, `group`.ban=?, `group`.blb=?, `group`.bili=?, `group`.atownerban=?, `group`.blbatall=? WHERE `group`.group=?';
         connection.query(sql, values, function (err, result) {
             connection.release();
             if (err) {

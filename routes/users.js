@@ -169,6 +169,7 @@ router.post('/admin/:id/update', function(req, res, next) {
   var blb = req.body.blb
   var bili = req.body.bili
   var atownerban = req.body.atownerban
+  var blbatall = req.body.blbatall
 
 
   if(parseInt(group) > 10000000000 || parseInt(group) < 1000) {
@@ -218,6 +219,9 @@ router.post('/admin/:id/update', function(req, res, next) {
   } else if(atownerban > 14400 || atownerban < 0) {
     res.status(422).send('非法艾特群组禁言');
     return;
+  }else if(blbatall != 0 && blbatall != 1) {
+    res.status(422).send('非法菠萝包更新艾特全体参数');
+    return;
   }
 
 
@@ -257,7 +261,7 @@ router.post('/admin/:id/update', function(req, res, next) {
                 if(err) {
                   res.status(500).send('找不到该组。')
                 } else {
-                  db.updateGroup([iactCD,setuKey,setu,seturecall,anti,individualCD,groupCD,repeat,antirecall,kouqiu,ban,blb,bili,atownerban,group], function(err, result) {
+                  db.updateGroup([iactCD,setuKey,setu,seturecall,anti,individualCD,groupCD,repeat,antirecall,kouqiu,ban,blb,bili,atownerban,blbatall,group], function(err, result) {
                     if(err){
                       res.status(500).send('更新失败，请刷新或者重新登录。')
                     } else {
