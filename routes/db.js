@@ -94,7 +94,7 @@ Db.prototype.register = function (values,  callback) {
             callback(err, 'connection failed');
             return;
         } 
-        const sql = 'INSERT INTO `user` (`username`, `password`) VALUES (?,?)'
+        const sql = 'INSERT INTO `user` (`username`, `password`, `groups`) VALUES (?,?,"[]")'
         connection.query(sql, values, function (err, result){
             connection.release();
             if (err) {
